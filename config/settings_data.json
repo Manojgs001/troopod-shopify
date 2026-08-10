@@ -1,0 +1,11 @@
+{
+  "current": {
+    "color_accent": "#f0a03c",
+    "color_brand": "#4b3a8f",
+    "sticky_label": "Pick any 3, pay \u20b9499",
+    "sticky_sublabel": "Free shipping, always",
+    "sticky_cta": "Build bundle",
+    "sticky_url": "/collections/all"
+  },
+  "presets": {}
+}

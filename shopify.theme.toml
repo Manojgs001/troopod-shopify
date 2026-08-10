@@ -1,0 +1,5 @@
+[environments.development]
+store = ""
+theme_id = ""
+# Fill in your store URL (e.g. purelane-dev.myshopify.com) and theme ID after running:
+# shopify theme push --unpublished

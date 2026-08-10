@@ -1,0 +1,115 @@
+<style>
+.pillars{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:820px){.pillars{grid-template-columns:repeat(3,1fr)}}
+.pillar{padding:26px 24px 24px;display:flex;flex-direction:column}
+.pillar .pi{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;margin-bottom:16px;
+  background:linear-gradient(150deg,rgba(240,160,60,.22),rgba(75,58,143,.34));border:1px solid rgba(236,230,247,.2);color:var(--accent)}
+.pillar .pi svg{width:24px;height:24px}
+.pillar .d3{margin-bottom:11px}
+.pillar p{margin-bottom:20px;flex:1}
+.pillar .btn{align-self:flex-start}
+</style>
+
+<section class="sec" id="how" data-scene="2">
+  <div class="wrap">
+    <div class="pillars">
+      {% for block in section.blocks %}
+      <article class="glass pillar rv" {{ block.shopify_attributes }}>
+        <span class="pi">
+          {% case block.settings.icon %}
+            {% when 'foam' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="10" cy="10" r="2"/><circle cx="14" cy="14" r="2"/></svg>
+            {% when 'shield' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            {% when 'heart' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          {% endcase %}
+        </span>
+        <h3 class="d3">{{ block.settings.title }}</h3>
+        <p class="body-s">{{ block.settings.body }}</p>
+        {% if block.settings.cta_label != blank %}
+        <a class="btn btn-ghost btn-sm" href="{{ block.settings.cta_url | default: '#' }}">{{ block.settings.cta_label }}</a>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane How It Works",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA Label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "foam", "label": "Foam" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "foam"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane How It Works",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Less scrubbing",
+            "body": "A foaming formulation. The foam clings to grease and lifts it, so you wipe instead of scrub.",
+            "icon": "foam"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Clean ingredients",
+            "body": "Made with 100% plant-based cleansers, without harsh chemicals or toxins.",
+            "icon": "shield"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Safe around everyone",
+            "body": "Gentle on hands and perfectly safe for use around children and pets.",
+            "icon": "heart"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

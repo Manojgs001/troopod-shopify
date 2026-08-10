@@ -1,0 +1,160 @@
+<style>
+.ing{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+@media(min-width:760px){.ing{grid-template-columns:repeat(5,1fr)}}
+.ing-i{text-align:center;padding:16px 12px;position:relative}
+@media(min-width:760px){.ing-i+.ing-i::before{content:"";position:absolute;left:0;top:14%;bottom:14%;width:1px;background:linear-gradient(180deg,transparent,rgba(236,230,247,.24),transparent)}}
+.ing-i .art{height:88px;display:grid;place-items:center;margin-bottom:12px}
+.ing-i .art svg{height:84px;width:auto}
+.ing-i h4{font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--surface);margin-bottom:6px}
+.ing-i p{font-size:12.2px;color:var(--paper-2);line-height:1.5}
+</style>
+
+<section class="sec" id="ingredients" data-scene="2">
+  <div class="wrap">
+    <div class="glass sec-pad rv">
+      <div class="panel-head">
+        <h2 class="d2">{{ section.settings.heading }}</h2>
+        <div class="rule"><i></i>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C12 22 20 18 20 12C20 6 12 2 12 2C12 2 4 6 4 12C4 18 12 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <i></i></div>
+      </div>
+      <div class="ing">
+        {% for block in section.blocks %}
+        <div class="ing-i" {{ block.shopify_attributes }}>
+          <div class="art">
+            {% case block.settings.icon %}
+              {% when 'coconut' %}
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="62" r="25" stroke="#ece6f7" stroke-width="2"/>
+                  <path d="M50 37C60 27 70 27 70 27C70 27 70 37 60 47" fill="var(--accent, #f0a03c)" opacity="0.8"/>
+                  <path d="M50 37C40 27 30 27 30 27C30 27 30 37 40 47" fill="var(--accent, #f0a03c)" opacity="0.8"/>
+                </svg>
+              {% when 'orange' %}
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="45" cy="58" r="23" stroke="#ece6f7" stroke-width="2"/>
+                  <path d="M35 48L55 68M35 68L55 48" stroke="var(--accent, #f0a03c)" stroke-width="2"/>
+                </svg>
+              {% when 'soapnut' %}
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="36" cy="66" r="16" stroke="#ece6f7" stroke-width="2"/>
+                  <circle cx="64" cy="69" r="14" stroke="#ece6f7" stroke-width="2"/>
+                  <circle cx="50" cy="43" r="14" stroke="#ece6f7" stroke-width="2"/>
+                  <path d="M50 29C60 19 70 19 70 19C70 19 70 29 60 39" fill="var(--accent, #f0a03c)" opacity="0.8"/>
+                </svg>
+              {% when 'neem' %}
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 80L80 20" stroke="var(--accent, #f0a03c)" stroke-width="2"/>
+                  <path d="M40 60C30 50 20 60 20 60C20 60 30 70 40 60Z" fill="#ece6f7" opacity="0.88"/>
+                  <path d="M60 40C70 30 80 40 80 40C80 40 70 50 60 40Z" fill="#ece6f7" opacity="0.88"/>
+                </svg>
+              {% when 'lemongrass' %}
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 90L50 10" stroke="var(--accent, #f0a03c)" stroke-width="2"/>
+                  <path d="M40 90C35 50 20 30 20 30C30 30 40 50 45 90Z" fill="#ece6f7" opacity="0.88"/>
+                  <path d="M60 90C65 50 80 30 80 30C70 30 60 50 55 90Z" fill="#ece6f7" opacity="0.88"/>
+                </svg>
+            {% endcase %}
+          </div>
+          <h4>{{ block.settings.name }}</h4>
+          <p>{{ block.settings.description }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Ingredients",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sourced from nature"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "coconut", "label": "Coconut" },
+            { "value": "orange", "label": "Orange Peel" },
+            { "value": "soapnut", "label": "Soap Nut" },
+            { "value": "neem", "label": "Neem" },
+            { "value": "lemongrass", "label": "Lemongrass" }
+          ],
+          "default": "coconut"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Ingredients",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut",
+            "description": "Plant-derived cleansers that lift grease",
+            "icon": "coconut"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Orange peel",
+            "description": "Natural degreaser and fresh scent",
+            "icon": "orange"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Soap nut",
+            "description": "Traditional cleaning berry",
+            "icon": "soapnut"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Neem",
+            "description": "Antibacterial properties",
+            "icon": "neem"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "name": "Lemongrass",
+            "description": "Refreshing natural fragrance",
+            "icon": "lemongrass"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

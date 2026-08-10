@@ -1,0 +1,55 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Purelane",
+    "theme_version": "1.0.0",
+    "theme_author": "Build Assignment",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent colour",
+        "default": "#f0a03c"
+      },
+      {
+        "type": "color",
+        "id": "color_brand",
+        "label": "Brand colour",
+        "default": "#4b3a8f"
+      }
+    ]
+  },
+  {
+    "name": "Sticky CTA",
+    "settings": [
+      {
+        "type": "text",
+        "id": "sticky_label",
+        "label": "Sticky bar label",
+        "default": "Pick any 3, pay \u20b9499"
+      },
+      {
+        "type": "text",
+        "id": "sticky_sublabel",
+        "label": "Sticky bar sublabel",
+        "default": "Free shipping, always"
+      },
+      {
+        "type": "text",
+        "id": "sticky_cta",
+        "label": "Sticky CTA text",
+        "default": "Build bundle"
+      },
+      {
+        "type": "url",
+        "id": "sticky_url",
+        "label": "Sticky CTA URL"
+      }
+    ]
+  }
+]

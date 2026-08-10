@@ -1,0 +1,122 @@
+<style>
+.shelf{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:860px){.shelf{grid-template-columns:repeat(4,1fr)}}
+.card{padding:16px;display:flex;flex-direction:column;transition:.4s var(--ease)}
+.card:hover{transform:translateY(-5px)}
+.card .shot{height:150px;border-radius:14px;margin-bottom:14px;display:grid;place-items:center;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,rgba(236,230,247,.12),rgba(75,58,143,.2));border:1px solid rgba(236,230,247,.14)}
+.card .shot img{height:122px;width:auto;object-fit:contain}
+.card .shot .no-img{height:122px;width:80px;opacity:.3;display:flex;align-items:center;justify-content:center}
+.card .pill{position:absolute;top:9px;left:9px;font-size:8.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;background:rgba(23,16,43,.6);border:1px solid rgba(240,160,60,.32);color:var(--accent)}
+.card .pill.sold-out{border-color:rgba(236,230,247,.2);color:var(--paper-3)}
+.card h4{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--surface);line-height:1.2;margin-bottom:7px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .rate{font-size:11.5px;color:var(--paper-2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.card .rate b{color:var(--accent);font-weight:700}
+.card .pr{margin-top:auto;display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.card .pr strong{font-family:'Outfit',sans-serif;font-size:18px;color:var(--surface);font-weight:700}
+.card .pr s{font-size:12px;color:var(--paper-3)}
+.card .pr em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--accent)}
+.card .btn{width:100%;justify-content:center}
+</style>
+
+<section id="shop" data-scene="3" class="section">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      {% if section.settings.kicker != blank %}
+        <span class="kicker">{{ section.settings.kicker }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="shelf">
+      {% assign collection = collections[section.settings.collection] %}
+      {% for product in collection.products limit: section.settings.products_to_show %}
+        <article class="glass card rv{% if forloop.index0 > 0 %} rv-d{{ forloop.index0 | at_most: 5 }}{% endif %}">
+          <div class="shot">
+            {% if product.available == false %}
+              <span class="pill sold-out">Sold out</span>
+            {% elsif product.metafields.purelane.badge_label != blank %}
+              <span class="pill">{{ product.metafields.purelane.badge_label }}</span>
+            {% endif %}
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 300 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                width="300"
+                height="400"
+                loading="lazy"
+              >
+            {% else %}
+              <span class="no-img" aria-label="No image available">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+              </span>
+            {% endif %}
+          </div>
+          <h4>{{ product.title }}</h4>
+          <div class="rate">
+            <b>★ {{ product.metafields.purelane.rating | default: '4.8' }}</b>
+            {{ product.metafields.purelane.review_count | default: '100+' }} reviews
+          </div>
+          <div class="pr">
+            <strong>{{ product.price | money }}</strong>
+            {% if product.compare_at_price > product.price %}
+              <s>{{ product.compare_at_price | money }}</s>
+              {% assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+              <em>{{ discount }}% off</em>
+            {% endif %}
+          </div>
+          {% if product.available %}
+            <a href="{{ product.url }}" class="btn btn-ghost btn-sm">View product</a>
+          {% else %}
+            <button class="btn btn-ghost btn-sm" disabled aria-disabled="true">Sold out</button>
+          {% endif %}
+        </article>
+      {% else %}
+        <p style="color:var(--paper-3);text-align:center;grid-column:1/-1;padding:40px 0">No products found. Please select a collection in the theme editor.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Shop Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by 30,000 homes"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Product collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 4,
+      "default": 8,
+      "label": "Products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Shop Grid"
+    }
+  ]
+}
+{% endschema %}

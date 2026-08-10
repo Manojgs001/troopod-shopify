@@ -1,0 +1,147 @@
+<style>
+.revband{padding:var(--sec-y) 0}
+.revhead{display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap;margin-bottom:14px}
+.revhead .agg{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-2)}
+.revhead .agg b{font-family:'Outfit',sans-serif;font-size:16px;color:var(--accent);letter-spacing:0}
+.revhead .st{color:var(--accent);font-size:12px;letter-spacing:.16em}
+.revrail{overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.revtrack{display:flex;gap:12px;width:max-content;animation:marq 52s linear infinite}
+.revrail:hover .revtrack,.revrail:focus-within .revtrack{animation-play-state:paused}
+@keyframes marq{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.rcard{flex:0 0 auto;width:284px;padding:15px 17px;border-radius:18px}
+.rcard .st{color:var(--accent);font-size:10.5px;letter-spacing:.2em;margin-bottom:9px}
+.rcard h5{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--surface);margin-bottom:7px}
+.rcard p{font-size:12.6px;color:var(--paper-2);line-height:1.52;margin-bottom:11px}
+.rcard .who{display:flex;align-items:center;gap:7px;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-3)}
+.rcard .who b{color:var(--surface);font-weight:700}
+.rcard .who svg{width:12px;height:12px;color:var(--accent);flex:0 0 auto}
+@media(prefers-reduced-motion:reduce){.revtrack{animation:none}}
+</style>
+
+<section class="sec revband" id="reviews" data-scene="1">
+  <div class="wrap">
+    <div class="revhead rv">
+      <span class="kicker">{{ section.settings.kicker }}</span>
+      <span class="agg"><span class="st">★★★★★</span> <b>{{ section.settings.aggregate_score }}</b> from {{ section.settings.aggregate_count }} reviews</span>
+      <span class="agg">Loved by <b>{{ section.settings.aggregate_homes }}</b> homes</span>
+    </div>
+  </div>
+  <div class="revrail rv" aria-label="Customer reviews">
+    <div class="revtrack">
+      {%- for block in section.blocks -%}
+        <article class="glass-2 rcard" {{ block.shopify_attributes }}>
+          <div class="st">{% for i in (1..block.settings.stars) %}★{% endfor %}</div>
+          <h5>{{ block.settings.title }}</h5>
+          <p>{{ block.settings.body }}</p>
+          <div class="who">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+            <b>{{ block.settings.author }}</b><span>&middot; {{ block.settings.product_label }}</span>
+          </div>
+        </article>
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        <article class="glass-2 rcard" aria-hidden="true">
+          <div class="st">{% for i in (1..block.settings.stars) %}★{% endfor %}</div>
+          <h5>{{ block.settings.title }}</h5>
+          <p>{{ block.settings.body }}</p>
+          <div class="who">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+            <b>{{ block.settings.author }}</b><span>&middot; {{ block.settings.product_label }}</span>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Reviews Rail",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "That's what they said"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_score",
+      "label": "Aggregate score",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_count",
+      "label": "Aggregate count",
+      "default": "8,000+"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_homes",
+      "label": "Aggregate homes",
+      "default": "12 lakh+"
+    }
+  ],
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Works like a charm"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "Finally an eco option that cleans as well as the chemical detergent I used for years..."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author name",
+          "default": "Anita"
+        },
+        {
+          "type": "text",
+          "id": "product_label",
+          "label": "Product label",
+          "default": "Laundry detergent"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Reviews Rail",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
